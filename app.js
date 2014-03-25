@@ -1,21 +1,23 @@
-var GitHubApi = require("github");
+var GitHubApi = require("node-github");
 
 var github = new GitHubApi({
-    // required
-    version: "3.0.0",
-    // optional
-    debug: true,
-    protocol: "https",
-    host: "github.com",
-    //pathPrefix: "/api/v3", // for some GHEs
-    timeout: 5000
+version: "3.0.0"
 });
-github.user.getFollowingFromUser({
-    // optional:
-    // headers: {
-    //     "cookie": "blahblah"
-    // },
-    user: "bnoordhuis"
-}, function(err, res) {
-    console.log(JSON.stringify(res));
+
+var msg = {user: "joyent", repo: "node", number: "25"};
+var funct = function(err, res) { console.log(JSON.stringify(res)); };
+var repo = github.pullRequests.getCommits.getFromUser(msg, funct);
+
+var express = require('express');
+var app = express();
+
+app.get('/commits.txt', function(req, res){
+  funct;
+});
+
+
+var colors = require('colors');
+
+colors.setTheme({
+  lightBlue: 'lightblue'
 });
